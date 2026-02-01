@@ -55,6 +55,33 @@ export default function AdminKeysPage() {
   const [qrOpen, setQrOpen] = useState<{open: boolean, key: string, label: string | null}>({open: false, key: '', label: ''});
   const [newLabel, setNewLabel] = useState("");
 
+  const downloadQRCode = () => {
+    const svg = document.querySelector("#qr-code-svg");
+    if (!svg) return;
+    
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    
+    img.onload = () => {
+      canvas.width = img.width + 40;
+      canvas.height = img.height + 40;
+      if (ctx) {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 20, 20);
+        const pngFile = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.download = `qr-code-${qrOpen.key}.png`;
+        downloadLink.href = pngFile;
+        downloadLink.click();
+      }
+    };
+    
+    img.src = "data:image/svg+xml;base64," + btoa(svgData);
+  };
+
   const handleCreate = () => {
     // Generate a random secure-ish string on client or let server handle.
     // Schema says `key` is required. Let's generate a random one here.
@@ -77,7 +104,7 @@ export default function AdminKeysPage() {
   };
 
   const getViewUrl = (key: string) => {
-    return `${window.location.origin}/view?key=${key}`;
+    return `${window.location.origin}/view`;
   };
 
   return (
@@ -231,16 +258,20 @@ export default function AdminKeysPage() {
           </DialogHeader>
           <div className="flex flex-col items-center justify-center p-6 bg-white rounded-xl border border-border/50 shadow-inner">
             <div className="p-2 bg-white rounded-lg">
-              <QRCode value={getViewUrl(qrOpen.key)} size={200} />
+              <QRCode id="qr-code-svg" value={getViewUrl(qrOpen.key)} size={200} />
             </div>
             <p className="mt-4 font-mono text-sm bg-muted px-3 py-1 rounded">
               {qrOpen.key}
             </p>
           </div>
-          <DialogFooter className="sm:justify-center">
-             <Button variant="outline" className="w-full" onClick={() => copyToClipboard(getViewUrl(qrOpen.key))}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+             <Button variant="outline" className="flex-1" onClick={() => copyToClipboard(getViewUrl(qrOpen.key))}>
                <Copy className="w-4 h-4 mr-2" />
-               Copy Direct Link
+               Copy Link
+             </Button>
+             <Button className="flex-1" onClick={downloadQRCode}>
+               <QrCode className="w-4 h-4 mr-2" />
+               Download PNG
              </Button>
           </DialogFooter>
         </DialogContent>

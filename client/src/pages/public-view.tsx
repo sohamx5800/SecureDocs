@@ -12,12 +12,11 @@ export default function PublicViewPage() {
   const [keyInput, setKeyInput] = useState("");
   const [activeKey, setActiveKey] = useState<string | null>(null);
 
-  // Extract key from URL search params
+  // Extract key from URL search params - but only use it if user has submitted
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const keyFromUrl = params.get("key");
-    if (keyFromUrl) {
-      setActiveKey(keyFromUrl);
+    if (keyFromUrl && !activeKey) {
       setKeyInput(keyFromUrl);
     }
   }, []);
