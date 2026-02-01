@@ -249,27 +249,27 @@ export default function AdminKeysPage() {
 
       {/* QR Code Dialog */}
       <Dialog open={qrOpen.open} onOpenChange={(open) => setQrOpen(prev => ({ ...prev, open }))}>
-        <DialogContent className="sm:max-w-sm">
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center">Scan to Access</DialogTitle>
-            <DialogDescription className="text-center">
+            <DialogTitle className="text-center text-xl">Scan to Access</DialogTitle>
+            <DialogDescription className="text-center font-medium">
               {qrOpen.label || "Document Access Code"}
             </DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col items-center justify-center p-6 bg-white rounded-xl border border-border/50 shadow-inner">
-            <div className="p-2 bg-white rounded-lg">
-              <QRCode id="qr-code-svg" value={getViewUrl(qrOpen.key)} size={200} />
+          <div className="flex flex-col items-center justify-center p-8 bg-white rounded-xl border border-border/50 shadow-inner my-2">
+            <div className="p-4 bg-white rounded-lg shadow-sm border border-border/10">
+              <QRCode id="qr-code-svg" value={getViewUrl(qrOpen.key)} size={240} />
             </div>
-            <p className="mt-4 font-mono text-sm bg-muted px-3 py-1 rounded">
+            <p className="mt-6 font-mono text-sm bg-muted px-4 py-2 rounded-full border border-border/50 text-foreground font-semibold tracking-wider">
               {qrOpen.key}
             </p>
           </div>
-          <DialogFooter className="flex flex-col sm:flex-row gap-2">
-             <Button variant="outline" className="flex-1" onClick={() => copyToClipboard(getViewUrl(qrOpen.key))}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-3 pt-2">
+             <Button variant="outline" className="flex-1 h-11" onClick={() => copyToClipboard(getViewUrl(qrOpen.key))}>
                <Copy className="w-4 h-4 mr-2" />
                Copy Link
              </Button>
-             <Button className="flex-1" onClick={downloadQRCode}>
+             <Button className="flex-1 h-11 shadow-lg shadow-primary/20" onClick={downloadQRCode}>
                <QrCode className="w-4 h-4 mr-2" />
                Download PNG
              </Button>

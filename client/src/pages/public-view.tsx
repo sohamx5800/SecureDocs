@@ -96,7 +96,21 @@ export default function PublicViewPage() {
 
   // 4. Success State (Document List)
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background select-none" onContextMenu={(e) => e.preventDefault()}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          body { display: none !important; }
+        }
+        .no-screenshot {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+      `}} />
+      
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-border shadow-sm">
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -111,7 +125,7 @@ export default function PublicViewPage() {
       </header>
 
       {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <main className="max-w-4xl mx-auto px-4 py-8 space-y-8 no-screenshot">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold font-display">Shared Documents</h2>
           <p className="text-muted-foreground">
