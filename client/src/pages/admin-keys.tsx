@@ -250,16 +250,16 @@ export default function AdminKeysPage() {
       {/* QR Code Dialog */}
       <Dialog open={qrOpen.open} onOpenChange={(open) => setQrOpen(prev => ({ ...prev, open }))}>
         <DialogContent 
-          className="fixed left-1/2 top-1/2 z-[100] w-[95vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background p-6 shadow-lg duration-200 m-0 sm:rounded-xl"
+          className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[95vw] max-w-md m-0 rounded-xl border bg-background p-6 shadow-2xl transition-none"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
-          <DialogHeader>
+          <DialogHeader className="sm:text-center">
             <DialogTitle className="text-center text-xl font-display">Scan to Access</DialogTitle>
             <DialogDescription className="text-center font-medium">
               {qrOpen.label || "Document Access Code"}
             </DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-white rounded-xl border border-border/50 shadow-inner my-2">
+          <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-white rounded-xl border border-border/50 shadow-inner my-4">
             <div className="p-2 sm:p-4 bg-white rounded-lg shadow-sm border border-border/10">
               <QRCode 
                 id="qr-code-svg" 
